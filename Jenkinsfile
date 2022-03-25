@@ -2,8 +2,8 @@ pipeline {
   agent any
   environment {
       ENVIRONEMENT='${params.ENVIRONMENT}'
-      REPO='${params.REPO}'
-      FUNCTION='${params.FUNCTION.toLowerCase}'
+      REPO_URL='${params.REPO}'
+      FUNCTION_NAME='${params.FUNCTION.toLowerCase}'
   }
   stages {
     stage('Install sam-cli') {
@@ -14,8 +14,8 @@ pipeline {
     }
     stage('Parameters') {
    		steps {
-		       echo "Deploying on ${params.ENVIRONMENT} on ${env.JENKINS_URL}"
-		       echo "Environment=${ENVIRONMENT}"
+		       echo "Deploying on ${ENVIRONEMENT} from Repository ${REPO_URL}"
+		       echo "Function=${FUNCTION_NAME}"
 		   }
     }
   }
