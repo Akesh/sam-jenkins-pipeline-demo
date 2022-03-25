@@ -1,8 +1,6 @@
 pipeline {
   agent any
-  environment { 
-        ENVIRONMENT = params.ENVIRONMENT
-    }
+  
   stages {
     stage('Install sam-cli') {
       steps {
@@ -12,7 +10,7 @@ pipeline {
     }
     stage('Parameters') {
    		steps {
-		       echo '${ENVIRONMENT} is selected'
+		       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
 		   }
     }
   }
