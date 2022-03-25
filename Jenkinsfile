@@ -3,7 +3,7 @@ pipeline {
   environment {
       ENVIRONEMENT='${params.ENVIRONMENT}'
       REPO_URL='${params.REPO}'
-      FUNCTION_NAME='${params.FUNCTION.toLowerCase}'
+      FUNCTION_NAME='${params.FUNCTION.toLowerCase()}'
   }
   stages {
     stage('Install sam-cli') {
