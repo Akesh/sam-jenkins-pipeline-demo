@@ -10,7 +10,7 @@ pipeline {
     }
     stage('Parameters') {
    		steps {
-		       echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+		       echo "Deploying on ${params.ENVIRONMENT} on ${env.JENKINS_URL}"
 		   }
     }
   }
