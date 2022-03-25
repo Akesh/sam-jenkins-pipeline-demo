@@ -14,7 +14,7 @@ pipeline {
     stage('Parameters') {
    		steps {
 		       echo "Deploying on ${params.ENVIRONMENT} on ${env.JENKINS_URL}"
-		       echo "Repository=${REPO}"
+		       echo "Repository=${params.REPO}"
 		   }
     }
   }
