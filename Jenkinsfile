@@ -3,7 +3,7 @@ pipeline {
   environment {
       ENVIRONEMENT='${params.ENVIRONMENT}'
       REPO_URL='${params.REPO}'
-      FUNCTION_NAME='${params.FUNCTION.toLowerCase()}'
+      FUNCTION_NAME='${params.FUNCTION}'
   }
   stages {
     stage('Install sam-cli') {
@@ -14,8 +14,8 @@ pipeline {
     }
     stage('Parameters') {
    		steps {
-		       echo "Deploying on ${ENVIRONEMENT} from Repository ${REPO_URL}"
-		       echo "Function=${FUNCTION_NAME}"
+		       echo 'Deploying on ${ENVIRONEMENT} from Repository ${REPO_URL}'
+		       echo 'Function=${FUNCTION_NAME}'
 		   }
     }
   }
