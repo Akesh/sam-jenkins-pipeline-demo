@@ -26,6 +26,6 @@ def executePipeline() {
   if (ENVIRONMENT == 'DEV') {
     print('Executing pipeline for DEV environment')
   } else if (ENVIRONMENT == 'PROD') {
-    print('Executing pipeline for DEV environment')
+    print('Executing pipeline for PROD environment')
   }
 }
