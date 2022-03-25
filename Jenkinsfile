@@ -2,6 +2,7 @@ pipeline {
   agent any
   environment {
       ENVIRONEMENT='${params.ENVIRONMENT}'
+      REPO='${params.REPO}'
   }
   stages {
     stage('Install sam-cli') {
@@ -13,7 +14,7 @@ pipeline {
     stage('Parameters') {
    		steps {
 		       echo "Deploying on ${params.ENVIRONMENT} on ${env.JENKINS_URL}"
-		       echo "Environment=${ENVIRONMENT}"
+		       echo "Repository=${REPO}"
 		   }
     }
   }
