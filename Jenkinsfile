@@ -1,9 +1,9 @@
 pipeline {
   agent any
   environment {
-      ENVIRONEMENT="${params.ENVIRONMENT}"
-      REPO="${params.REPO}"
-      FUNCTION="${params.FUNCTION}".toLowerCase()      
+    ENVIRONEMENT = "${params.ENVIRONMENT}"
+    REPO = "${params.REPO}"
+    FUNCTION = "${params.FUNCTION}".toLowerCase()
   }
   stages {
     stage('Install sam-cli') {
@@ -12,11 +12,20 @@ pipeline {
         stash includes: '**/venv/**/*', name: 'venv'
       }
     }
-    stage('Parameters') {
-   		steps {
-		       echo "Deploying on ${ENVIRONEMENT} on ${env.JENKINS_URL}"
-		       echo "FUNCTION=${FUNCTION}"
-		   }
+    stage('Build') {
+      steps {
+        unstash 'venv'
+        echo "Executing executePipeline() function for ${ENVIRONMENT}"
+        executePipeline();
+      }
     }
+  }
+}
+
+def executePipeline() {
+  if (ENVIRONMENT == 'DEV') {
+    print('Executing pipeline for DEV environment')
+  } else if (ENVIRONMENT == 'PROD') {
+    print('Executing pipeline for DEV environment')
   }
 }
