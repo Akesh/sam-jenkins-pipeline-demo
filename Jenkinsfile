@@ -7,15 +7,23 @@ pipeline {
         stash includes: '**/venv/**/*', name: 'venv'
       }
     }
-	stage('Parameters') {
-	   when {
-   	    expression {
-    	      return params.ENVIRONMENT == 'DEV'
-    	}
-   	}
-   	steps {
-	       echo 'Deploying to DEV environment'
-	   }
-	} 
+    stage('Parameters') {
+      when {
+        expression {
+          return params.ENVIRONMENT == 'DEV'
+        }
+      }
+      steps {
+        echo 'Deploying to DEV environment'
+      }
+      when {
+        expression {
+          return params.ENVIRONMENT == 'PROD'
+        }
+        steps {
+          echo 'Deploying to PROD environment'
+        }
+      }
+    }
   }
 }
