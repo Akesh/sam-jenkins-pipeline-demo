@@ -2,6 +2,8 @@ pipeline {
   agent any
   environment {
       ENVIRONEMENT='${params.ENVIRONMENT}'
+      REPO='${params.REPO}'
+      FUNCTION='${params.FUNCTION.toLowerCase}'
   }
   stages {
     stage('Install sam-cli') {
