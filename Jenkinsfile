@@ -1,8 +1,8 @@
 pipeline {
   agent any
   environment {
-      ENVIRONEMENT=${params.ENVIRONMENT}
-      REPO=${params.REPO}
+      ENVIRONEMENT="${params.ENVIRONMENT}"
+      REPO="${params.REPO}"
   }
   stages {
     stage('Install sam-cli') {
