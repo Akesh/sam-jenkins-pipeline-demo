@@ -17,14 +17,11 @@ pipeline {
     stage('Build') {
       steps {
         unstash 'venv'
-        
-        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: 'us-east-1'){
-        environment{
-            BASE_URL="${BASEURL}"
-        }                   
-        echo "Executing executePipeline() function for ${ENVIRONMENT} with base url ${BASE_URL}"
-        //executePipeline();
-      }
+        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: 'us-east-1'){       
+        	BASE_URL="${BASEURL}"                         
+        	echo "Executing executePipeline() function for ${ENVIRONMENT} with base url ${BASE_URL}"
+        	executePipeline();
+      	}
       }
     }
   }
