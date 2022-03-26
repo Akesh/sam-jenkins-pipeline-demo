@@ -17,7 +17,7 @@ pipeline {
     stage('Build') {
       steps {
         unstash 'venv'
-        withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/service', recursive: true, regionName: 'eu-west-1'){                                                                                                                                                                                                                   
+        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: '/service', recursive: true, regionName: 'eu-west-1'){                                                                                                                                                                                                                   
          echo "${SERVICE_APP_PARAM}"                  
         //echo "Executing executePipeline() function for ${ENVIRONMENT}"
         //executePipeline();
