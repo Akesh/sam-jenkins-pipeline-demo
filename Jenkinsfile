@@ -20,13 +20,14 @@ pipeline {
         unstash 'venv'      
          withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: 'us-east-1'){                       	                      
         	echo "Executing executePipeline() function for ${ENVIRONMENT} with base url ${BASEURL}"
-        	${BASE_URL}="${BASEURL}"        	
+        	${env.BASE_URL}="Test Value"      	        
         	//executePipeline();
       		}   
         }              
     }
   }
 }
+
 
 def executePipeline() {
     print('Executing pipeline for {} env'.format(BASE_URL))
