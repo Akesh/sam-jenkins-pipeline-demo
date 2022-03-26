@@ -30,6 +30,21 @@ pipeline {
         }
       }
     }
+    stage('Upload Artifacts to S3') {
+      steps {
+        unstash 'venv'
+        //Read AWS SSM parameter store parameters 
+        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/BUCKET", recursive: true, regionName: "${AWS_REGION}") {
+          echo "ARTIFACTORY Bucket- ${ARTIFACTORY}"
+          dir("${env.WORKSPACE}/hello-world"){
+          	   echo "Uploading artifacts to S3 bucket"
+			   s3Upload(file:"${FUNCTION}.zip", bucket:"${ARTIFACTORY}", path:"${ENVIRONEMENT}/")
+		  }
+
+          //executePipeline();
+        }
+      }
+    }
     stage('Deploy') {
       steps {
         unstash 'venv'
