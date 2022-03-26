@@ -46,8 +46,7 @@ pipeline {
     // }
     // }
     stage('Deploy') {
-      steps {
-        unstash 'venv'
+      steps {        
         //Read AWS SSM parameter store parameters 
         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}") {
           echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
