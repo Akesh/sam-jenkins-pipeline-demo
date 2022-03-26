@@ -7,12 +7,12 @@ pipeline {
     //NEWRELIC_API_KEY = credentials('newrelic-api-key')
   }
   stages {
-    stage('Install sam-cli') {
-      steps {
-        sh 'python3 -m venv venv && venv/bin/pip3 install aws-sam-cli'
-        stash includes: '**/venv/**/*', name: 'venv'
-      }
-    }
+//    stage('Install sam-cli') {
+//      steps {
+//        sh 'python3 -m venv venv && venv/bin/pip3 install aws-sam-cli'
+//        stash includes: '**/venv/**/*', name: 'venv'
+//      }
+//    }
     stage('Build') {
       steps {
         unstash 'venv'
