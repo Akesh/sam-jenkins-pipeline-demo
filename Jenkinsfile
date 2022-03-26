@@ -5,7 +5,7 @@ pipeline {
     REPO = "${params.REPO}"
     FUNCTION = "${params.FUNCTION}".toLowerCase()
     NEWRELIC_API_KEY = credentials('newrelic-api-key')
-    USER_DETAILS = credentials('dev/user/details')
+    //USER_DETAILS = credentials('dev/user/details')
   }
   stages {
     stage('Install sam-cli') {
@@ -18,7 +18,7 @@ pipeline {
       steps {
         unstash 'venv'
         echo "NEWRELIC_API_KEY- ${NEWRELIC_API_KEY}"
-        echo "USER_DETAILS- ${USER_DETAILS}"
+        //echo "USER_DETAILS- ${USER_DETAILS}"
         //echo "Executing executePipeline() function for ${ENVIRONMENT}"
         //executePipeline();
       }

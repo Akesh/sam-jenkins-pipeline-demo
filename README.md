@@ -10,3 +10,9 @@ See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more inform
 
 This library is licensed under the MIT-0 License. See the LICENSE file.
 
+
+## Jenkins Pipeline Setup
+# Plugins Installed
+* AWS Parameter Store Build Wrapper
+* AWS Secrets Manager Credentials Provider
+* Pipeline: AWS Steps
