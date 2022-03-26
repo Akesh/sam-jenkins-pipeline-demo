@@ -16,11 +16,11 @@ pipeline {
     stage('Build') {
       steps {
         unstash 'venv'
-        withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/DEV', recursive: true, regionName: 'eu-west-1') {
-  			echo "${BASE_URL}"
-		}        
+        withAWSParameterStore(namePrefixes: 'DEV',regionName: 'us-east-1') { 
+         echo "${env.BASEURL}"                  
         //echo "Executing executePipeline() function for ${ENVIRONMENT}"
         //executePipeline();
+      }
       }
     }
   }
