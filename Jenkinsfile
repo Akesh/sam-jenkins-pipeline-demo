@@ -18,7 +18,7 @@ pipeline {
       steps {
         unstash 'venv'
         withAWSParameterStore(naming: 'relative', path: '/DEV', recursive: true, regionName: 'eu-west-1') { 
-         echo "${env.BASEURL}"                  
+         echo "${BASEURL}"                  
         //echo "Executing executePipeline() function for ${ENVIRONMENT}"
         //executePipeline();
       }
