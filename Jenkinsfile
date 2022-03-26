@@ -22,7 +22,8 @@ pipeline {
           echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
           echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
           dir("${env.WORKSPACE}/hello-world"){
-			   sh "npm ci"
+			   sh "zip -qr $FUNCTION.zip *"
+			   sh "ls *.zip"
 		  }
 
           //executePipeline();
