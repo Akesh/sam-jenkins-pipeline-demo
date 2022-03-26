@@ -21,6 +21,10 @@ pipeline {
         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}") {
           echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
           echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
+          dir("${env.WORKSPACE}/hello-world"){
+			   sh "npm ci"
+		  }
+
           //executePipeline();
         }
       }
