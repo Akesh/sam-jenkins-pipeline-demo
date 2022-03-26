@@ -1,9 +1,10 @@
 pipeline {
   agent any
   environment {
+  	AWS_REGION= "us-east-1"
     ENVIRONEMENT = "${params.ENVIRONMENT}"
     REPO = "${params.REPO}"
-    FUNCTION = "${params.FUNCTION}".toLowerCase()
+    FUNCTION = "${params.FUNCTION}".toLowerCase()    
     //NEWRELIC_API_KEY = credentials('newrelic-api-key')
   }
   stages {
@@ -17,7 +18,7 @@ pipeline {
     stage('Build') {     
       steps {
         unstash 'venv'      
-         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: 'us-east-1'){                       	                      
+         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}"){                       	                      
         	echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"        	  
         	echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
         	//executePipeline();
