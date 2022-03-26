@@ -22,9 +22,9 @@ Resources:
       
 
 Outputs:
-  HelloWorldFunction:
+  CMPInfrastructureServiceLambda:
     Description: "Hello World Lambda Function ARN"
     Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
+  CMPInfrastructureServiceLambdaIamRole:
     Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+    Value: !GetAtt CMPInfrastructureServiceLambdaRole.Arn
