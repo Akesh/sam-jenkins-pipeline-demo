@@ -17,7 +17,7 @@ pipeline {
     stage('Build') {
       steps {
         unstash 'venv'
-        withAWSParameterStore(namePrefixes: '/DEV',regionName: 'us-east-1') { 
+        withAWSParameterStore(naming: 'relative', path: '/DEV', recursive: true, regionName: 'eu-west-1') { 
          echo "${env.BASEURL}"                  
         //echo "Executing executePipeline() function for ${ENVIRONMENT}"
         //executePipeline();
