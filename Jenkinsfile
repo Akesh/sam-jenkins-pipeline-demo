@@ -38,7 +38,7 @@ pipeline {
           echo "ARTIFACTORY Bucket- ${ARTIFACTORY}"
           dir("${env.WORKSPACE}/hello-world"){
           	   echo "Uploading artifacts to S3 bucket"
-			   s3Upload(file:"${FUNCTION}.zip", bucket:"${ARTIFACTORY}", path:"${ENVIRONEMENT}/")
+			   s3Upload(file:"${FUNCTION}.zip", bucket:"${ARTIFACTORY}", path:"${ENVIRONEMENT}/${FUNCTION}")
 		  }
 
           //executePipeline();
