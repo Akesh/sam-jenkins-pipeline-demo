@@ -18,8 +18,8 @@ pipeline {
       steps {
         unstash 'venv'      
          withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: 'us-east-1'){                       	                      
-        	echo "BASE URL- ${BASEURL}"        	  
-        	echo "BASE URL- ${ADMINPORTALURL}"
+        	echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"        	  
+        	echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
         	//executePipeline();
       		}   
         }              
