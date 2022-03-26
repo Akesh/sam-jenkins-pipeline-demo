@@ -23,10 +23,10 @@ pipeline {
           stash includes: '**/.aws-sam/**/*', name: 'aws-sam'
           echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
           echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
-          dir("${env.WORKSPACE}/hello-world") {
-            sh "zip -qr ${FUNCTION}.zip *"
-            sh "ls *.zip"
-          }
+          //dir("${env.WORKSPACE}/hello-world") {
+          //  sh "zip -qr ${FUNCTION}.zip *"
+          //  sh "ls *.zip"
+          //}
           //executePipeline();
         }
       }
@@ -38,8 +38,8 @@ pipeline {
         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/BUCKET", recursive: true, regionName: "${AWS_REGION}") {
           echo "ARTIFACTORY Bucket- ${ARTIFACTORY}"
           dir("${env.WORKSPACE}/hello-world") {
-            echo "Uploading artifacts to S3 bucket"
-            s3Upload(file: "${FUNCTION}.zip", bucket: "${ARTIFACTORY}", path: "${ENVIRONEMENT}/${FUNCTION}/${FUNCTION}.zip")
+          //  echo "Uploading artifacts to S3 bucket"
+          //  s3Upload(file: "${FUNCTION}.zip", bucket: "${ARTIFACTORY}", path: "${ENVIRONEMENT}/${FUNCTION}/${FUNCTION}.zip")
           }
           //executePipeline();
         }
