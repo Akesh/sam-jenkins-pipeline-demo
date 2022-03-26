@@ -4,8 +4,7 @@ pipeline {
     ENVIRONEMENT = "${params.ENVIRONMENT}"
     REPO = "${params.REPO}"
     FUNCTION = "${params.FUNCTION}".toLowerCase()
-    NEWRELIC_API_KEY = credentials('newrelic-api-key')
-    //USER_DETAILS = credentials('dev/user/details')
+    //NEWRELIC_API_KEY = credentials('newrelic-api-key')
   }
   stages {
     stage('Install sam-cli') {
@@ -17,8 +16,9 @@ pipeline {
     stage('Build') {
       steps {
         unstash 'venv'
-        echo "NEWRELIC_API_KEY- ${NEWRELIC_API_KEY}"
-        //echo "USER_DETAILS- ${USER_DETAILS}"
+        withAWSParameterStore(credentialsId: '', naming: 'relative', path: '/DEV', recursive: true, regionName: 'eu-west-1') {
+  			echo "${BASE_URL}"
+		}        
         //echo "Executing executePipeline() function for ${ENVIRONMENT}"
         //executePipeline();
       }
