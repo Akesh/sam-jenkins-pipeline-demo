@@ -5,6 +5,7 @@ pipeline {
     REPO = "${params.REPO}"
     FUNCTION = "${params.FUNCTION}".toLowerCase()
     //NEWRELIC_API_KEY = credentials('newrelic-api-key')
+    BASE_URL
   }
   stages {
     stage('Install sam-cli') {
@@ -14,16 +15,15 @@ pipeline {
         stash includes: '**/venv/**/*', name: 'venv'
       }
     }
-    stage('Build') {
+    stage('Build') {     
       steps {
-        unstash 'venv'
-        environment{
+        unstash 'venv'      
          withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: 'us-east-1'){                       	                      
-        	echo "Executing executePipeline() function for ${ENVIRONMENT} with base url ${BASEURL}"        	
+        	echo "Executing executePipeline() function for ${ENVIRONMENT} with base url ${BASEURL}"
+        	BASE_URL="${BASEURL}"        	
         	//executePipeline();
-      	}   
-        }        
-      }
+      		}   
+        }              
     }
   }
 }
