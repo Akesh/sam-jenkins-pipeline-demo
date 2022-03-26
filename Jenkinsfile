@@ -34,7 +34,7 @@ pipeline {
     //    stage('Upload Artifacts to S3') {
     //     steps {
     //      unstash 'venv'
-    //Read AWS SSM parameter store parameters 
+    //       Read AWS SSM parameter store parameters 
     //       withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/BUCKET", recursive: true, regionName: "${AWS_REGION}") {
     //       echo "ARTIFACTORY Bucket- ${ARTIFACTORY}"
     //     dir("${env.WORKSPACE}/${FUNCTION}") {
@@ -54,7 +54,7 @@ pipeline {
           echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
            unstash 'venv'
            unstash 'aws-sam'
-           sh 'venv/bin/sam deploy --stack-name $FUNCTION -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           sh 'venv/bin/sam deploy --stack-name $FUNCTION -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION}/ --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }
