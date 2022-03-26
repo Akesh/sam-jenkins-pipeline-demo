@@ -22,7 +22,7 @@ pipeline {
           echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
           echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
           dir("${env.WORKSPACE}/hello-world"){
-			   sh "zip -qr $FUNCTION.zip *"
+			   sh "zip -qr ${FUNCTION}.zip *"
 			   sh "ls *.zip"
 		  }
 
