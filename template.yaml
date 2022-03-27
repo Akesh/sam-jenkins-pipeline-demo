@@ -6,6 +6,10 @@ Description: >
   Sample SAM Template for sam-jenkins-demo-app
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Parameters:
+  LambdaAlias:
+    Type: String
+    Default: DEV
 Globals:
   Function:
     Timeout: 3
@@ -16,10 +20,9 @@ Resources:
       CodeUri: CMP-Infrastructure-service-lambda/
       Handler: app.lambdaHandler
       Runtime: nodejs12.x
-      AutoPublishAlias: live
+      AutoPublishAlias: !Ref LambdaAlias
       DeploymentPreference:
        Type: AllAtOnce
-      
 
 Outputs:
   CMPInfrastructureServiceLambda:
