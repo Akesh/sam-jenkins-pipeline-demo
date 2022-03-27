@@ -4,8 +4,8 @@ pipeline {
     AWS_REGION = "us-east-1"
     ENVIRONEMENT = "${params.ENVIRONMENT}"
     REPO = "${params.REPO}"
-    CFN_STACK = "${params.CFN_STACK}"    
     FUNCTION = "${params.FUNCTION}"
+    STACK_NAME = "${FUNCTION}" + "-" + "Stack"
     LOWERCASE_FUNCTION = "${params.FUNCTION}".toLowerCase()
   }
   stages {
@@ -40,10 +40,7 @@ pipeline {
            echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
            unstash 'aws-sam'
-           script {
-           	STACK_NAME = "${FUNCTION}" + "-Stack"
-           }           
-           sh 'venv/bin/sam deploy --stack-name $STACK_NAME -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }
