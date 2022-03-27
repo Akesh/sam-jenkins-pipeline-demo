@@ -4,9 +4,9 @@ pipeline {
     AWS_REGION = "us-east-1"
     ENVIRONEMENT = "${params.ENVIRONMENT}"
     REPO = "${params.REPO}"
-    FUNCTION = "${params.FUNCTION}"
-    STACK_NAME = "${FUNCTION}" + "-" + "Stack"
+    FUNCTION = "${params.FUNCTION}"    
     LOWERCASE_FUNCTION = "${params.FUNCTION}".toLowerCase()
+    STACK_NAME = "${LOWERCASE_FUNCTION}" + "-" + "stack"
   }
   stages {
     stage('Install sam-cli') {
@@ -40,7 +40,7 @@ pipeline {
            echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
            unstash 'aws-sam'
-           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --parameter-overrides LambdaAlias=${ENVIRONEMENT} --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }
