@@ -21,7 +21,7 @@ exports.lambdaHandler = async (event, context) => {
     response = {
       statusCode: 200,
       body: JSON.stringify({
-        message: "Hello world with latest version",
+        message: "Hello world with parameterized job",
         // location: ret.data.trim()
       }),
     };
