@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
     AWS_REGION = "us-east-1"
-    ENVIRONEMENT = "${params.ENVIRONMENT}"
+    ENVIRONMENT = "${params.ENVIRONMENT}"
     REPO = "${params.REPO}"
     FUNCTION = "${params.FUNCTION}"    
     LOWERCASE_FUNCTION = "${params.FUNCTION}".toLowerCase()
@@ -20,7 +20,7 @@ pipeline {
       steps {
         unstash 'venv'
         //Read AWS SSM parameter store parameters 
-        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}") {
+        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONMENT}", recursive: true, regionName: "${AWS_REGION}") {
           sh 'venv/bin/sam build'
           stash includes: '**/.aws-sam/**/*', name: 'aws-sam'
           echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
@@ -36,11 +36,11 @@ pipeline {
     stage('Deploy') {
       steps {        
         //Read AWS SSM parameter store parameters 
-        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}") {
+        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONMENT}", recursive: true, regionName: "${AWS_REGION}") {
            echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
            unstash 'aws-sam'
-           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --parameter-overrides ParameterKey=FunctionName,ParameterValue=${FUNCTION} ParameterKey=LambdaAlias,ParameterValue=${ENVIRONEMENT} ParameterKey=AutoPublishCodeSha,ParameterValue=${BUILD_ID} --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --parameter-overrides ParameterKey=FunctionName,ParameterValue=${FUNCTION} ParameterKey=LambdaAlias,ParameterValue=${ENVIRONMENT} ParameterKey=AutoPublishCodeSha,ParameterValue=${BUILD_ID} --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }

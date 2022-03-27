@@ -23,6 +23,7 @@ Resources:
     Properties:
       CodeUri: CMP-Infrastructure-service-lambda/
       Handler: app.lambdaHandler
+      FunctionName: !Ref FunctionName
       Runtime: nodejs12.x
       AutoPublishAlias: !Ref LambdaAlias
       AutoPublishCodeSha256: !Ref AutoPublishCodeSha
