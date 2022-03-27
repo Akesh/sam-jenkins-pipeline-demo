@@ -40,7 +40,7 @@ pipeline {
            echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
            unstash 'aws-sam'
-           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --parameter-overrides FunctionName=${FUNCTION},LambdaAlias=${ENVIRONEMENT} --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --parameter-overrides "FunctionName=${FUNCTION},LambdaAlias=${ENVIRONEMENT}" --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }
