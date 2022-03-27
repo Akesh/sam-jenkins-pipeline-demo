@@ -4,7 +4,9 @@ pipeline {
     AWS_REGION = "us-east-1"
     ENVIRONEMENT = "${params.ENVIRONMENT}"
     REPO = "${params.REPO}"
-    FUNCTION = "${params.FUNCTION}".toLowerCase()
+    CFN_STACK = "${params.CFN_STACK}"    
+    FUNCTION = "${params.FUNCTION}"
+    LOWERCASE_FUNCTION = "${params.FUNCTION}".toLowerCase()
   }
   stages {
     stage('Install sam-cli') {
@@ -31,29 +33,15 @@ pipeline {
         }
       }
     }
-    //    stage('Upload Artifacts to S3') {
-    //     steps {
-    //      unstash 'venv'
-    //       Read AWS SSM parameter store parameters 
-    //       withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/BUCKET", recursive: true, regionName: "${AWS_REGION}") {
-    //       echo "ARTIFACTORY Bucket- ${ARTIFACTORY}"
-    //     dir("${env.WORKSPACE}/${FUNCTION}") {
-    //  echo "Uploading artifacts to S3 bucket"
-    //  s3Upload(file: "${FUNCTION}.zip", bucket: "${ARTIFACTORY}", path: "${ENVIRONEMENT}/${FUNCTION}/${FUNCTION}.zip")
-    //   }
-    //executePipeline();
-    //}
-    // }
-    // }
     stage('Deploy') {
       steps {        
         //Read AWS SSM parameter store parameters 
         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}") {
-          echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
-          echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
+           echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
            unstash 'aws-sam'
-           sh 'venv/bin/sam deploy --stack-name $FUNCTION -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           STACK_NAME = "${ENVIRONEMENT}" + " " + "${FUNCTION}" + "-Stack "
+           sh 'venv/bin/sam deploy --stack-name $STACK_NAME -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }
