@@ -39,8 +39,8 @@ pipeline {
         withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONEMENT}", recursive: true, regionName: "${AWS_REGION}") {
            echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
-           unstash 'aws-sam'
-           STACK_NAME = "${ENVIRONEMENT}" + " " + "${FUNCTION}" + "-Stack "
+           unstash 'aws-sam'           
+           sh 'STACK_NAME = "${ENVIRONEMENT}" + " " + "${FUNCTION}" + "-Stack "'
            sh 'venv/bin/sam deploy --stack-name $STACK_NAME -t template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONEMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
