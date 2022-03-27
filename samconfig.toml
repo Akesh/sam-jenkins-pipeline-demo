@@ -5,6 +5,6 @@ version = 0.1
 stack_name = "sam-app-user1-dev-stack"
 s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-120l2nak0j1aa"
 s3_prefix = "sam-app-user1-dev-stack"
-region = "us-west-2"
+region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
