@@ -28,7 +28,7 @@ Resources:
       AutoPublishAlias: !Ref LambdaAlias
       AutoPublishCodeSha256: !Ref AutoPublishCodeSha
       DeploymentPreference:
-       Type: AllAtOnce
+       Type: Linear10PercentEvery1Minute
 
 Outputs:
   CMPInfrastructureServiceLambda:

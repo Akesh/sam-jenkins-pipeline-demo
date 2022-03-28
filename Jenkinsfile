@@ -6,7 +6,7 @@ pipeline {
     REPO = "${params.REPO}"
     FUNCTION = "${params.FUNCTION}"    
     LOWERCASE_FUNCTION = "${params.FUNCTION}".toLowerCase()
-    STACK_NAME = "${LOWERCASE_FUNCTION}" + "-" + "stack"
+    STACK_NAME = "${LOWERCASE_FUNCTION}" + "-" + "stack"    
   }
   stages {
     stage('Install sam-cli') {
