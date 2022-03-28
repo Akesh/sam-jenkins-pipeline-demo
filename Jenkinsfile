@@ -33,6 +33,24 @@ pipeline {
         }
       }
     }
+    stage('Package') {
+      steps {
+        unstash 'venv'
+        //Read AWS SSM parameter store parameters 
+        withAWSParameterStore(credentialsId: 'BlazePulsePipelineCredentials', naming: 'relative', path: "/${ENVIRONMENT}", recursive: true, regionName: "${AWS_REGION}") {
+          sh 'venv/bin/sam build'
+          stash includes: '**/.aws-sam/**/*', name: 'aws-sam'
+          echo "PORTALADMIN_URL- ${PORTALADMIN_URL}"
+          echo "INFRASERVICE_URL- ${INFRASERVICE_URL}"
+          sh 'aws cloudformation package --template template.yaml --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONMENT}/${FUNCTION}  --force-upload --output-template-file packaged-template.json'
+          //dir("${env.WORKSPACE}/hello-world") {
+          //  sh "zip -qr ${FUNCTION}.zip *"
+          //  sh "ls *.zip"
+          //}
+          //executePipeline();
+        }
+      }
+    }
     stage('Deploy') {
       steps {        
         //Read AWS SSM parameter store parameters 
@@ -40,7 +58,7 @@ pipeline {
            echo "BUCKET_ARTIFACTORY- ${BUCKET_ARTIFACTORY}"
            unstash 'venv'
            unstash 'aws-sam'
-           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} -t template.yaml --parameter-overrides ParameterKey=FunctionName,ParameterValue=${FUNCTION} ParameterKey=LambdaAlias,ParameterValue=${ENVIRONMENT} ParameterKey=AutoPublishCodeSha,ParameterValue=${BUILD_ID} --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
+           sh 'venv/bin/sam deploy --stack-name ${STACK_NAME} --parameter-overrides ParameterKey=FunctionName,ParameterValue=${FUNCTION} ParameterKey=LambdaAlias,ParameterValue=${ENVIRONMENT} ParameterKey=AutoPublishCodeSha,ParameterValue=${BUILD_ID} --force-upload --s3-bucket ${BUCKET_ARTIFACTORY} --s3-prefix ${ENVIRONMENT}/${FUNCTION} --capabilities CAPABILITY_IAM --region ${AWS_REGION}'
           //executePipeline();
         }
       }
