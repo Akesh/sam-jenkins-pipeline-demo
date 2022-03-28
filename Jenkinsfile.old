@@ -2,11 +2,11 @@ pipeline {
   agent any
   environment {
     AWS_REGION = "us-east-1"
-    ENVIRONMENT = "${params.ENVIRONMENT}"
+    ENVIRONMENT = "${params.ENVIRONMENT}"   
     REPO = "${params.REPO}"
-    FUNCTION = "${params.FUNCTION}"    
+    FUNCTION = "${params.FUNCTION}"
     LOWERCASE_FUNCTION = "${params.FUNCTION}".toLowerCase()
-    STACK_NAME = "${LOWERCASE_FUNCTION}" + "-" + "stack"    
+    STACK_NAME = "${LOWERCASE_FUNCTION}" + "-" + "stack"      
   }
   stages {
     stage('Install sam-cli') {
@@ -15,6 +15,10 @@ pipeline {
         sh 'python3 -m venv venv && venv/bin/pip3 install aws-sam-cli'
         stash includes: '**/venv/**/*', name: 'venv'
       }
+    }
+    stage('Initiate'){    
+        echo "do_checkout() function started for Environment:- ${ENVIRONMENT}"
+        do_checkout()
     }
     stage('Build') {
       steps {
@@ -66,6 +70,15 @@ pipeline {
   }
 }
 
-def executePipeline() {
-  print('Executing pipeline for {} env'.format(BASE_URL))
+
+def do_checkout(){
+    if(ENVIRONMENT=="DEV"){
+	    stage('DEV Checkout') {
+	      git branch: '$ENVIRONMENT', credentialsId: d6aa4510-b9b1-44d1-b0ff-e9d3de1d5428, url: REPO
+	    }
+    }else if (ENVIRONMENT=="PROD"){
+        stage('PROD Checkout') {
+	      git branch: '$ENVIRONMENT', credentialsId: d6aa4510-b9b1-44d1-b0ff-e9d3de1d5428, url: REPO
+	    }
+    }
 }
