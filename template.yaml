@@ -7,11 +7,11 @@ Description: >
   
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Parameters:
-  FunctionName:
-    Type: String 
-  LambdaAlias:
+  Environment:
     Type: String
     Default: DEV
+  FunctionName:
+    Type: String
   AutoPublishCodeSha:
     Type: String           
 Globals:
@@ -25,13 +25,18 @@ Resources:
       Handler: app.lambdaHandler
       FunctionName: !Ref FunctionName
       Runtime: nodejs12.x
-      AutoPublishAlias: !Ref LambdaAlias
+      AutoPublishAlias: !Ref Environment
       AutoPublishCodeSha256: !Ref AutoPublishCodeSha
       DeploymentPreference:
-       Type: AllAtOnce
+       Type: AllAtOnce                        
       Environment:
        Variables: 
-         Env1: '{{resolve:ssm:/PROD/PORTALADMIN_URL}}'         
+         Env1: !Sub 
+              - '{{resolve:ssm:/${Environment}/PORTALADMIN_URL}}'
+              - Environment: !Ref Environment
+         Env2: !Sub 
+              - '{{resolve:ssm:/${Environment}/INFRASERVICE_URL}}'
+              - Environment: !Ref Environment                    
 
 Outputs:
   CMPInfrastructureServiceLambda:
