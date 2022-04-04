@@ -33,7 +33,10 @@ Resources:
        Variables: 
          Env1: !Sub 
               - '{{resolve:ssm:/${Environment}/PORTALADMIN_URL}}'
-              - Environment: !Ref Environment         
+              - Environment: !Ref Environment
+         Env2: !Sub 
+              - '{{resolve:ssm:/${Environment}/INFRASERVICE_URL}}'
+              - Environment: !Ref Environment                    
 
 Outputs:
   CMPInfrastructureServiceLambda:
