@@ -29,6 +29,10 @@ Resources:
       AutoPublishCodeSha256: !Ref AutoPublishCodeSha
       DeploymentPreference:
        Type: AllAtOnce
+      Environment:
+       Variables: 
+         Env1: '{{resolve:ssm:/PROD/PORTALADMIN_URL}}'
+         Env2: '{{resolve:ssm:/DEV/INFRASERVICE_URL}}'
 
 Outputs:
   CMPInfrastructureServiceLambda:
