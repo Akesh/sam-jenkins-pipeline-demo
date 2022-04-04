@@ -27,6 +27,10 @@ Resources:
       Runtime: nodejs12.x
       AutoPublishAlias: !Ref Environment
       AutoPublishCodeSha256: !Ref AutoPublishCodeSha
+      Layers:
+          - !Sub 
+              - '{{resolve:ssm:/${Environment}/CMP-ThirdPartyLibLayerArn}}'
+              - Environment: !Ref Environment
       DeploymentPreference:
        Type: AllAtOnce
       Environment:
