@@ -32,7 +32,7 @@ Resources:
               - '{{resolve:ssm:/${Environment}/CMP-ThirdPartyLibLayerArn}}'
               - Environment: !Ref Environment
       DeploymentPreference:
-       Type: AllAtOnce                        
+       Type: AllAtOnce
       Environment:
        Variables: 
          Env1: !Sub 
