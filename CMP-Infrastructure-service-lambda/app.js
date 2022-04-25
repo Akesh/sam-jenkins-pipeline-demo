@@ -21,7 +21,11 @@ exports.lambdaHandler = async (event, context) => {
     response = {
       statusCode: 200,
       body: JSON.stringify({
+<<<<<<< HEAD
         message: "This is PROD branch",
+=======
+        message: "This is DEV branch",
+>>>>>>> refs/remotes/origin/DEV
         // location: ret.data.trim()
       }),
     };
