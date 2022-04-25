@@ -13,7 +13,9 @@ Parameters:
   FunctionName:
     Type: String
   AutoPublishCodeSha:
-    Type: String           
+    Type: String
+  DeploymentStrategy:
+    Type: String        
 Globals:
   Function:
     Timeout: 3
@@ -28,19 +30,13 @@ Resources:
       AutoPublishAlias: !Ref Environment
       AutoPublishCodeSha256: !Ref AutoPublishCodeSha
       Layers:
-          - !Sub 
-              - '{{resolve:ssm:/${Environment}/CMP-ThirdPartyLibLayerArn}}'
-              - Environment: !Ref Environment
+          - !Sub '{{resolve:ssm:/${Environment}/CMP-ThirdPartyLibLayerArn}}'              
       DeploymentPreference:
-       Type: AllAtOnce
+       Type: !Ref DeploymentStrategy
       Environment:
        Variables: 
-         Env1: !Sub 
-              - '{{resolve:ssm:/${Environment}/PORTALADMIN_URL}}'
-              - Environment: !Ref Environment
-         Env2: !Sub 
-              - '{{resolve:ssm:/${Environment}/INFRASERVICE_URL}}'
-              - Environment: !Ref Environment                    
+         Env1: !Sub '{{resolve:ssm:/${Environment}/PORTALADMIN_URL}}'              
+         Env2: !Sub '{{resolve:ssm:/${Environment}/INFRASERVICE_URL}}'                                 
 
 Outputs:
   CMPInfrastructureServiceLambda:
